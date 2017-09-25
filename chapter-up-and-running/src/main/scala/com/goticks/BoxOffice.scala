@@ -65,7 +65,7 @@ class BoxOffice(implicit timeout: Timeout) extends Actor {
       def getEvents = context.children.map { child =>
         self.ask(GetEvent(child.path.name)).mapTo[Option[Event]]
       }
-      def convertToEvents(f: Future[Iterable[Option[Event]]]) =
+      def convertToEvents(f: Future[Iterable[Option[Event]]]): Future[Events] =
         f.map(_.flatten).map(l=> Events(l.toVector))
 
       pipe(convertToEvents(Future.sequence(getEvents))) to sender()

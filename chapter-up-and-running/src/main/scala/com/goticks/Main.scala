@@ -25,7 +25,7 @@ object Main extends App
   implicit val ec = system.dispatcher  // bindAndHandle은 비동기적이며, ExecutionContext를 암시적으로 사용해야 한다
 
   val api = new RestApi(system, requestTimeout(config)).routes // RestApi는 HTTP 루트를 제공한다
- 
+
   implicit val materializer = ActorMaterializer()
   val bindingFuture: Future[ServerBinding] =
     Http().bindAndHandle(api, host, port) // RestApi 루트를 가지고 HTTP 서버를 시작한다
